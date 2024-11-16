@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @AnalyzeClasses(packages = "com.mycompany.myapp")
-public class ArchUnitTest {
+class ArchUnitTest {
     @Test
     void shouldFollowLayeredArchitecture() {
         noClasses()
@@ -51,7 +51,7 @@ public class ArchUnitTest {
 
     @Test
     void shouldNotUseFieldInjection() {
-        ArchCondition<JavaField> BE_ANNOTATED_WITH_AN_INJECTION_ANNOTATION = ArchConditions.<JavaField>beAnnotatedWith(
+        ArchCondition<JavaField> beAnnotatedWithAnInjectionAnnotation = ArchConditions.<JavaField>beAnnotatedWith(
                         "org.springframework.beans.factory.annotation.Autowired")
                 .or(beAnnotatedWith("com.google.inject.Inject"))
                 .or(beAnnotatedWith("javax.inject.Inject"))
@@ -61,7 +61,7 @@ public class ArchUnitTest {
                 .as("be annotated with an injection annotation");
 
         noFields()
-                .should(BE_ANNOTATED_WITH_AN_INJECTION_ANNOTATION)
+                .should(beAnnotatedWithAnInjectionAnnotation)
                 .as("no classes should use field injection")
                 .because(
                         "field injection is considered harmful; use constructor injection or setter injection instead; "

@@ -26,7 +26,7 @@ public class CustomerService extends ServiceImpl<CustomerRepository, Customer> {
     public Page<CustomerResponse> findAllCustomers(CustomerQuery customerQuery) {
         IPage<Customer> customerPage = page(PageUtils.fromPageRequest(customerQuery.pageable()));
         List<CustomerResponse> customerResponseList = customerMapper.toResponseList(customerPage.getRecords());
-        return new PageImpl(customerResponseList, customerQuery.pageable(), customerPage.getTotal());
+        return new PageImpl<>(customerResponseList, customerQuery.pageable(), customerPage.getTotal());
     }
 
     public Optional<CustomerResponse> findCustomerById(Long id) {
