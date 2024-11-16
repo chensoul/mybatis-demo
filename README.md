@@ -2,6 +2,18 @@
 
 This project was created with [generator-springboot](https://github.com/chensoul/generator-springboot/).
 
+## Feature
+
+- JDK：17
+- Maven：3.9.9
+- Spring Cloud：2023.0.3
+- Postgres：17
+- Mybatis plus：3.5.8
+- Flywaydb
+- Springdoc：2.6.0
+- ELK：8.15.3
+- Grafana：11.2.2
+
 ## Build
 
 The application can be built using the following command:

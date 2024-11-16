@@ -49,7 +49,7 @@ jobs:
           server-username: MAVEN_USERNAME # 变量
           server-password: MAVEN_TOKEN # 变量
           gpg-passphrase: GPG_PASSPHRASE # 变量
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # gpg --export-secret-keys YOUR_ID_HERE | base64
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # gpg --armor --export-secret-keys YOUR_ID
 
       - name: Deploy to Maven Central Repository
         env:
@@ -58,7 +58,7 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
         run: |
           if [ ! -z "$MAVEN_TOKEN" ]; then
-              ./mvnw deploy -ntp -B -U -P release -DskipTests -DretryFailedDeploymentCount=10
+              ./mvnw deploy -ntp -B -U -Prelease -DskipTests
           else
               echo No MAVEN_TOKEN, skipping...
           fi
@@ -68,4 +68,4 @@ jobs:
         run: |
           GIT_TAG=:${GITHUB_REF#refs/tags/}
           DOCKER_TAG=${GIT_TAG#:refs/heads/main}
-          ./mvnw -pl chensoul-framework -ntp jib:build -Djib.to.image=chensoul-framework${DOCKER_TAG} -Djib.to.auth.username="${{ secrets.DOCKER_USERNAME }}" -Djib.to.auth.password="${{ secrets.DOCKER_PASSWORD }}"
+          ./mvnw -ntp jib:build -Djib.to.image=mybatis-demo${DOCKER_TAG} -Djib.to.auth.username="${{ secrets.DOCKER_USERNAME }}" -Djib.to.auth.password="${{ secrets.DOCKER_PASSWORD }}"
