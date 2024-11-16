@@ -1,0 +1,18 @@
+{
+  "generator-springboot": {
+    "appName": "mybatis-demo",
+    "packageName": "com.mycompany.myapp",
+    "databaseType": "postgresql",
+    "dbMigrationTool": "flywaydb",
+    "persistence": "mybatis",
+    "loggingType": "elk",
+    "features": [
+      "zipkin",
+      "localstack",
+      "monitor"
+    ],
+    "buildTool": "maven",
+    "packageFolder": "com/mycompany/myapp",
+    "flywayMigrationCounter": 2
+  }
+}
