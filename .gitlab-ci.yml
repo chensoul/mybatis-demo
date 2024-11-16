@@ -13,13 +13,26 @@ stages:
   - release
   - deploy
 before_script:
-  - export NG_CLI_ANALYTICS="false"
   - export MAVEN_USER_HOME=`pwd`/.maven
+
+nohttp:
+  stage: check
+  script:
+    - ./mvnw -ntp checkstyle:check -Dmaven.repo.local=$MAVEN_USER_HOME
+
+dependency-scanning:
+  stage: check
+  script:
+    - curl -Lo ./snyk $(curl -s https://api.github.com/repos/snyk/snyk/releases/latest | grep "browser_download_url.*snyk-linux" | cut -d ':' -f 2,3 | tr -d \" | tr -d ' ')
+    - chmod +x snyk
+    - ./snyk test --all-projects
+    - ./snyk monitor --all-projects
+  allow_failure: true
 
 maven-compile:
   stage: build
   script:
-    - ./mvnw -ntp compile -Dmaven.repo.local=$MAVEN_USER_HOME
+    - ./mvnw -ntp compile -P-webapp -Dmaven.repo.local=$MAVEN_USER_HOME
   artifacts:
     paths:
       - target/classes/
@@ -55,13 +68,13 @@ sonar-analyze:
   dependencies:
     - maven-test
   script:
-    - ./mvnw -ntp org.jacoco:jacoco-maven-plugin:prepare-agent initialize sonar:sonar -Dsonar.host.url=a -Dsonar.login=$SONAR_TOKEN -Dmaven.repo.local=$MAVEN_USER_HOME
+    - ./mvnw -ntp org.jacoco:jacoco-maven-plugin:prepare-agent initialize sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dmaven.repo.local=$MAVEN_USER_HOME
   allow_failure: true
 
 maven-package:
   stage: package
   script:
-    - ./mvnw -ntp verify deploy -DskipTests -Dmaven.repo.local=$MAVEN_USER_HOME
+    - ./mvnw -ntp verify deploy -Pprod -DskipTests -Dmaven.repo.local=$MAVEN_USER_HOME
   artifacts:
     paths:
       - target/*.jar

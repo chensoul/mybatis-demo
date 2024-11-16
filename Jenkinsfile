@@ -12,9 +12,24 @@ node {
 
         stage('clean') {
             sh "chmod +x mvnw"
-            sh "./mvnw -ntp clean -P-webapp"
+            sh "./mvnw -ntp clean"
+        }
+        stage('nohttp') {
+            sh "./mvnw -ntp checkstyle:check"
         }
 
+        stage('Install Snyk CLI') {
+           sh """
+               curl -Lo ./snyk $(curl -s https://api.github.com/repos/snyk/snyk/releases/latest | grep "browser_download_url.*snyk-linux" | cut -d ':' -f 2,3 | tr -d \" | tr -d ' ')
+               chmod +x snyk
+           """
+        }
+        stage('Snyk test') {
+           sh './snyk test --all-projects'
+        }
+        stage('Snyk monitor') {
+           sh './snyk monitor --all-projects'
+        }
         stage('backend tests') {
             try {
                 sh "./mvnw -ntp verify"
@@ -26,7 +41,7 @@ node {
         }
 
         stage('packaging') {
-            sh "./mvnw -ntp verify -P-webapp deploy -DskipTests"
+            sh "./mvnw -ntp verify deploy -DskipTests"
             archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
         }
         stage('quality analysis') {
