@@ -6,13 +6,14 @@ This project was created with [generator-springboot](https://github.com/chensoul
 
 - JDK：17
 - Maven：3.9.9
-- Spring Cloud：2023.0.3
+- Spring Cloud：2024.0.0
 - Postgres：17
-- Mybatis plus：3.5.8
-- Flywaydb
-- Springdoc：2.6.0
-- ELK：8.15.3
-- Grafana：11.2.2
+- Mybatis plus：3.5.9
+- Flywaydb：10.20.1
+- Springdoc：2.7.0
+- ELK：8.17.0
+- Grafana：11.4.0
+- Prometheus：v3.0.1
 
 ## Build
 
