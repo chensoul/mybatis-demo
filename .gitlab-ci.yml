@@ -1,4 +1,4 @@
-image: jhipster/jhipster:v8.7.3
+image: jhipster/jhipster:v8.8.0
 
 cache:
   key: "$CI_COMMIT_REF_NAME"
