@@ -27,7 +27,7 @@
         <archunit-junit5.version>1.4.0</archunit-junit5.version>
 
         <spotless-maven-plugin.version>2.44.3</spotless-maven-plugin.version>
-        <sonar-maven-plugin.version>5.0.0.4389</sonar-maven-plugin.version>
+        <sonar-maven-plugin.version>5.1.0.4751</sonar-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
         <jib-maven-plugin.version>3.4.4</jib-maven-plugin.version>
         <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
