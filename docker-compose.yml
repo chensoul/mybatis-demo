@@ -1,24 +1,9 @@
 services:
   postgresql:
-    image: postgres:17
+    image: postgres:17.4
     environment:
-      - POSTGRES_DB=appdb
-      - POSTGRES_USER=appuser
-      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=mybatis-demo
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=P4ssword!
     ports:
       - "5432:5432"
-
-  localstack:
-    image: localstack/localstack:4.2.0
-    ports:
-      - "4566:4566"
-    environment:
-      - SERVICES=s3,sqs
-      - DEFAULT_REGION=us-east-1
-      - DOCKER_HOST=unix:///var/run/docker.sock
-      - USE_SSL=0
-      - AWS_CBOR_DISABLE=1
-    volumes:
-      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - "../.localstack:/etc/localstack/init/ready.d"  # ready hook

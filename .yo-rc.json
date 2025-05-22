@@ -8,7 +8,6 @@
     "loggingType": "elk",
     "features": [
       "zipkin",
-      "localstack",
       "monitor"
     ],
     "buildTool": "maven",

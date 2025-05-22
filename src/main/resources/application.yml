@@ -1,5 +1,3 @@
-server.port: 8080
-
 server:
   shutdown: graceful
   compression:
@@ -7,34 +5,45 @@ server:
     mime-types: text/html,text/xml,text/plain,text/css,application/javascript,application/json,image/svg+xml
     min-response-size: 1024
 
-spring.application.name: mybatis-demo
-spring.main.allow-bean-definition-overriding: true
-spring.jmx.enabled: false
-spring.mvc.problemdetails.enabled: true
+spring:
+  application:
+    name: mybatis-demo
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${spring.application.name}
+    username: postgres
+    password: P4ssword!
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+  docker:
+    compose:
+      lifecycle-management: start-only
 
-################ Database #####################
-spring.datasource.hikari.auto-commit: false
-spring.datasource.hikari.data-source-properties.ApplicationName: ${spring.application.name}
-spring.datasource.driver-class-name: org.postgresql.Driver
-spring.datasource.url: jdbc:postgresql://localhost:5432/appdb
-spring.datasource.username: appuser
-spring.datasource.password: secret
+error:
+  handling:
+    http-status-in-json-response: true
+    exception-logging: NO_LOGGING
+    full-stacktrace-http-statuses: 5xx
+    log-levels:
+      5xx: ERROR
+    codes:
+      UserNameUnique: USER_NAME_UNIQUE
+
+springdoc:
+  pathsToMatch: /api/**
   
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-spring.flyway.locations: classpath:/db/migration/{vendor}
-
-###AWS
-spring.cloud.aws.endpoint: http://localhost:4566
-spring.cloud.aws.credentials.access-key: noop
-spring.cloud.aws.credentials.secret-key: noop
-spring.cloud.aws.region.static: us-east-1
-
-################ Actuator #####################
-management.endpoints.web.exposure.include: configprops,env,health,info,logfile,loggers,metrics,prometheus,aggmetrics
-management.endpoint.health.show-details: always
-management.tracing.sampling.probability: 1.0
-management.zipkin.tracing.endpoint: http://localhost:9411/api/v2/spans
-  
+management:
+  endpoints:
+    web:
+      exposure:
+        include: configprops,env,health,info,logfile,loggers,metrics,prometheus,aggmetrics
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
