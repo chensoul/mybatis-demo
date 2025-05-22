@@ -9,9 +9,9 @@ spring:
   application:
     name: mybatis-demo
   datasource:
-    url: jdbc:postgresql://localhost:5432/${spring.application.name}
-    username: postgres
-    password: P4ssword!
+    url: jdbc:mysql://localhost:3306/${spring.application.name}?serverTimezone=Asia/Shanghai
+    username: root
+    password:
     hikari:
       connection-timeout: 30000
       maximum-pool-size: 10
@@ -31,7 +31,7 @@ error:
 
 springdoc:
   pathsToMatch: /api/**
-  
+
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

@@ -6,7 +6,5 @@ import org.junit.jupiter.api.Test;
 class MybatisDemoApplicationTest extends BaseIT {
 
     @Test
-    void contextLoads() {
-    }
-
+    void contextLoads() {}
 }

@@ -8,13 +8,12 @@ import io.github.rosestack.myapp.model.UserDTO;
 import io.github.rosestack.myapp.repository.UserRepository;
 import io.github.rosestack.myapp.util.NotFoundException;
 import io.github.rosestack.myapp.util.PageUtils;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 public class UserService extends ServiceImpl<UserRepository, User> {

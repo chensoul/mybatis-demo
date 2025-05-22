@@ -1,1 +1,1 @@
-DELETE FROM "tb_user";
+DELETE FROM `user`;

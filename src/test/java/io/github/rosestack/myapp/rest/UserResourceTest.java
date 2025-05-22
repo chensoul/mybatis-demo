@@ -1,5 +1,7 @@
 package io.github.rosestack.myapp.rest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.github.rosestack.myapp.config.BaseIT;
 import io.restassured.RestAssured;
@@ -8,14 +10,11 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 class UserResourceTest extends BaseIT {
 
     @Test
     void getAllUsers_success() {
-        RestAssured
-                .given()
+        RestAssured.given()
                 .accept(ContentType.JSON)
                 .when()
                 .get("/api/users")
@@ -27,8 +26,7 @@ class UserResourceTest extends BaseIT {
 
     @Test
     void getAllUsers_filtered() {
-        RestAssured
-                .given()
+        RestAssured.given()
                 .accept(ContentType.JSON)
                 .when()
                 .get("/api/users?filter=user")
@@ -40,8 +38,7 @@ class UserResourceTest extends BaseIT {
 
     @Test
     void getUser_success() {
-        RestAssured
-                .given()
+        RestAssured.given()
                 .accept(ContentType.JSON)
                 .when()
                 .get("/api/users/1000")
@@ -52,8 +49,7 @@ class UserResourceTest extends BaseIT {
 
     @Test
     void getUser_notFound() {
-        RestAssured
-                .given()
+        RestAssured.given()
                 .accept(ContentType.JSON)
                 .when()
                 .get("/api/users/1666")
@@ -64,8 +60,7 @@ class UserResourceTest extends BaseIT {
 
     @Test
     void createUser_success() {
-        RestAssured
-                .given()
+        RestAssured.given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .body(readResource("/requests/userDTORequest.json"))
@@ -78,8 +73,7 @@ class UserResourceTest extends BaseIT {
 
     @Test
     void createUser_missingField() {
-        RestAssured
-                .given()
+        RestAssured.given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .body(readResource("/requests/userDTORequest_missingField.json"))
@@ -94,8 +88,7 @@ class UserResourceTest extends BaseIT {
 
     @Test
     void updateUser_success() {
-        RestAssured
-                .given()
+        RestAssured.given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .body(readResource("/requests/userDTORequest.json"))
@@ -109,8 +102,7 @@ class UserResourceTest extends BaseIT {
 
     @Test
     void deleteUser_success() {
-        RestAssured
-                .given()
+        RestAssured.given()
                 .accept(ContentType.JSON)
                 .when()
                 .delete("/api/users/1000")
@@ -118,5 +110,4 @@ class UserResourceTest extends BaseIT {
                 .statusCode(HttpStatus.NO_CONTENT.value());
         assertEquals(1, userRepository.selectCount(Wrappers.lambdaQuery()));
     }
-
 }
