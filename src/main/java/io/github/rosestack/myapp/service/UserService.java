@@ -8,31 +8,36 @@ import io.github.rosestack.myapp.model.UserDTO;
 import io.github.rosestack.myapp.repository.UserRepository;
 import io.github.rosestack.myapp.util.NotFoundException;
 import io.github.rosestack.myapp.util.PageUtils;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 public class UserService extends ServiceImpl<UserRepository, User> {
     public Page<UserDTO> findAllUsers(String filter, Pageable pageable) {
         IPage<User> page = null;
         if (filter != null) {
-            page = baseMapper.selectPage(PageUtils.fromPageable(pageable), Wrappers.<User>lambdaQuery().like(User::getName, filter));
+            page = baseMapper.selectPage(
+                    PageUtils.fromPageable(pageable),
+                    Wrappers.<User>lambdaQuery().like(User::getName, filter));
         } else {
             page = page(PageUtils.fromPageable(pageable));
         }
-        return new PageImpl<>(page.getRecords()
-                .stream()
-                .map(user -> mapToDTO(user, new UserDTO()))
-                .toList(), pageable, page.getTotal());
+        return new PageImpl<>(
+                page.getRecords().stream()
+                        .map(user -> mapToDTO(user, new UserDTO()))
+                        .toList(),
+                pageable,
+                page.getTotal());
     }
 
     public UserDTO findUserById(Long id) {
-        return Optional.ofNullable(getById(id)).map(user -> mapToDTO(user, new UserDTO())).orElseThrow(NotFoundException::new);
+        return Optional.ofNullable(getById(id))
+                .map(user -> mapToDTO(user, new UserDTO()))
+                .orElseThrow(NotFoundException::new);
     }
 
     @Transactional(rollbackFor = Exception.class)

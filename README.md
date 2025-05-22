@@ -7,10 +7,10 @@ This project was created with [generator-springboot](https://github.com/chensoul
 - JDK：17
 - Maven：3.9.9
 - Spring Cloud：2024.0.0
-- Postgres：17
-- Mybatis plus：3.5.9
+- Postgres：17.4
+- Mybatis plus：3.5.12
 - Flywaydb：10.20.1
-- Springdoc：2.7.0
+- Springdoc：2.8.6
 - ELK：8.17.0
 - Grafana：11.4.0
 - Prometheus：v3.0.1
@@ -42,7 +42,7 @@ $ ./mvnw spotless:apply
 ### Repair Flyway Schema History Table
 
 ```bash
-$ ./mvnw flyway:repair -Dflyway.url=jdbc:postgresql://localhost:5432/appdb -Dflyway.user=appuser -Dflyway.password=secret
+$ ./mvnw flyway:repair -Dflyway.url=jdbc:postgresql://localhost:5432/mybatis-demo -Dflyway.user=postgres -Dflyway.password=P4ssword!
 ```
 
 ### Code quality using Sonar
@@ -68,49 +68,6 @@ $ ./mvnw -Dsonar.token=${SONAR_TOKEN} -Dsonar.projectKey=mybatis-demo
 
 For more information, refer to
 the [Code quality page](https://www.jhipster.tech/documentation-archive/v8.7.3/code-quality/).
-
-### Docker Compose support
-
-To start required services in Docker containers, run:
-
-```bash
-$ docker compose -f docker-compose.yml up -d
-```
-
-To stop and remove the containers, run:
-
-```bash
-$ docker compose -f docker-compose.yml down
-```
-
-[Spring Docker Compose Integration](https://docs.spring.io/spring-boot/reference/features/dev-services.html) is enabled
-by default. It's possible to disable it in application.yml:
-
-```yaml
-spring:
-  docker:
-    compose:
-      enabled: false
-```
-
-You can also fully dockerized your application and all the services that it depends on.
-To achieve this, first build a Docker image of your app by running:
-
-```bash
-$ ./mvnw -ntp verify -DskipTests jib:dockerBuild
-```
-
-Or build a arm64 Docker image when using an arm64 processor os like MacOS with M1 processor family running:
-
-```bash
-$ ./mvnw -ntp verify -DskipTests jib:dockerBuild -Djib-maven-plugin.architecture=arm64
-```
-
-Then run:
-
-```bash
-$ docker compose -f docker-compose-app.yml up -d
-```
 
 ## Useful Links
 

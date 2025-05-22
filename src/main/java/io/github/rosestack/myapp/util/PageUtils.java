@@ -1,10 +1,9 @@
 package io.github.rosestack.myapp.util;
 
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
-import java.util.stream.Collectors;
 
 public interface PageUtils {
     static com.baomidou.mybatisplus.extension.plugins.pagination.Page fromPageable(Pageable pageable) {

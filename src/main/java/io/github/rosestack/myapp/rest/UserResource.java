@@ -28,23 +28,10 @@ class UserResource {
 
     @Operation(
             parameters = {
-                    @Parameter(
-                            name = "page",
-                            in = ParameterIn.QUERY,
-                            schema = @Schema(implementation = Integer.class)
-                    ),
-                    @Parameter(
-                            name = "size",
-                            in = ParameterIn.QUERY,
-                            schema = @Schema(implementation = Integer.class)
-                    ),
-                    @Parameter(
-                            name = "sort",
-                            in = ParameterIn.QUERY,
-                            schema = @Schema(implementation = String.class)
-                    )
-            }
-    )
+                @Parameter(name = "page", in = ParameterIn.QUERY, schema = @Schema(implementation = Integer.class)),
+                @Parameter(name = "size", in = ParameterIn.QUERY, schema = @Schema(implementation = Integer.class)),
+                @Parameter(name = "sort", in = ParameterIn.QUERY, schema = @Schema(implementation = String.class))
+            })
     @GetMapping
     public Page<UserDTO> getAllUsers(
             @RequestParam(name = "filter", required = false) final String filter,
@@ -66,8 +53,7 @@ class UserResource {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(
-            @PathVariable(name = "id") final Long id,
-            @RequestBody @Valid final UserDTO userDTO) {
+            @PathVariable(name = "id") final Long id, @RequestBody @Valid final UserDTO userDTO) {
         return ResponseEntity.ok(userService.updateUser(id, userDTO));
     }
 

@@ -1,21 +1,19 @@
 package io.github.rosestack.myapp.model;
 
+import static java.lang.annotation.ElementType.*;
+
 import io.github.rosestack.myapp.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import jakarta.validation.Payload;
-import org.springframework.web.servlet.HandlerMapping;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Map;
-
-import static java.lang.annotation.ElementType.*;
-
+import org.springframework.web.servlet.HandlerMapping;
 
 /**
  * Validate that the name value isn't taken yet.
@@ -23,9 +21,7 @@ import static java.lang.annotation.ElementType.*;
 @Target({FIELD, METHOD, ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(
-        validatedBy = UserNameUnique.UserNameUniqueValidator.class
-)
+@Constraint(validatedBy = UserNameUnique.UserNameUniqueValidator.class)
 public @interface UserNameUnique {
 
     String message() default "{Exists.user.name}";
@@ -39,8 +35,7 @@ public @interface UserNameUnique {
         private final UserService userService;
         private final HttpServletRequest request;
 
-        public UserNameUniqueValidator(final UserService userService,
-                                       final HttpServletRequest request) {
+        public UserNameUniqueValidator(final UserService userService, final HttpServletRequest request) {
             this.userService = userService;
             this.request = request;
         }
@@ -51,16 +46,17 @@ public @interface UserNameUnique {
                 // no value present
                 return true;
             }
-            @SuppressWarnings("unchecked") final Map<String, String> pathVariables =
+            @SuppressWarnings("unchecked")
+            final Map<String, String> pathVariables =
                     ((Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE));
             final String currentId = pathVariables.get("id");
-            if (currentId != null && value.equalsIgnoreCase(userService.getById(Long.parseLong(currentId)).getName())) {
+            if (currentId != null
+                    && value.equalsIgnoreCase(
+                            userService.getById(Long.parseLong(currentId)).getName())) {
                 // value hasn't changed
                 return true;
             }
             return !userService.nameExists(value);
         }
-
     }
-
 }

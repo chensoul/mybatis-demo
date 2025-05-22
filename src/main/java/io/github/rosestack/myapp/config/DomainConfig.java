@@ -7,6 +7,4 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @MapperScan("io.github.rosestack.myapp.repository")
 @EnableTransactionManagement
-public class DomainConfig {
-
-}
+public class DomainConfig {}

@@ -37,13 +37,12 @@ public class LoggingAspectConfig {
         @Pointcut("within(@org.springframework.stereotype.Repository *)"
                 + " || within(@org.springframework.stereotype.Service *)"
                 + " || within(@org.springframework.web.bind.annotation.RestController *)")
-        public void springBeanPointcut() {
-        }
+        public void springBeanPointcut() {}
 
-        @Pointcut("within(io.github.rosestack.myapp..*.*Repository)" + " || within(io.github.rosestack.myapp..*.*Service)"
-                + " || within(io.github.rosestack.myapp..*.*Controller)")
-        public void applicationPackagePointcut() {
-        }
+        @Pointcut(
+                "within(io.github.rosestack.myapp..*.*Repository)" + " || within(io.github.rosestack.myapp..*.*Service)"
+                        + " || within(io.github.rosestack.myapp..*.*Controller)")
+        public void applicationPackagePointcut() {}
 
         private Logger logger(JoinPoint joinPoint) {
             return LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringTypeName());

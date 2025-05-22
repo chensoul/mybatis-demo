@@ -8,8 +8,6 @@ import lombok.Data;
 public class UserDTO {
     Long id;
 
-    @NotNull
-    @Size(max = 255)
-    @UserNameUnique
+    @NotNull @Size(max = 255) @UserNameUnique
     String name;
 }
