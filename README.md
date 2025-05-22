@@ -2,52 +2,53 @@
 
 This project was created with [generator-springboot](https://github.com/chensoul/generator-springboot/).
 
-## Feature
+## Testing requirements
 
-- JDK：17
-- Maven：3.9.9
-- Spring Cloud：2024.0.0
-- Postgres：17
-- Mybatis plus：3.5.9
-- Flywaydb：10.20.1
-- Springdoc：2.7.0
-- ELK：8.17.0
-- Grafana：11.4.0
-- Prometheus：v3.0.1
+Testcontainers is used for running the integration tests. Due
+to the reuse flag, the container will not shut down after the tests. It can be stopped manually if needed.
 
 ## Build
 
-The application can be built using the following command:
+The application can be tested and built using the following command:
 
-```bash
-$ ./mvnw clean package
+```
+mvnw clean package
 ```
 
-To ensure everything worked, run:
+Start your application with the following command - here with the profile `prod`:
 
-```bash
-$ java -jar target/*.jar
+```
+java -Dspring.profiles.active=prod -jar ./target/mybatis-demo-0.0.1-SNAPSHOT.jar
 ```
 
-Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
+If required, a Docker image can be created with the Spring Boot plugin. Add `SPRING_PROFILES_ACTIVE=prod` as
+environment variable when running the container.
 
-## Others
+```
+mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=chensoul/mybatis-demo
+```
 
-### Format code
+## Format code
 
 ```bash
 $ ./mvnw spotless:apply
 ```
 
-### Repair Flyway Schema History Table
+## Repair Flyway Schema History Table
 
 ```bash
-$ ./mvnw flyway:repair -Dflyway.url=jdbc:postgresql://localhost:5432/appdb -Dflyway.user=appuser -Dflyway.password=secret
+$ ./mvnw flyway:repair -Dflyway.url=jdbc:postgresql://localhost:5432/mybatis-demo -Dflyway.user=postgres -Dflyway.password=P4ssword!
 ```
 
-### Code quality using Sonar
+## Code quality using Sonar
 
-Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
+Sonar is used to analyse code quality. You can run a Sonar analysis with SonarCloud:
+
+```bash
+$ ./mvnw sonar:sonar -Dsonar.token=${SONAR_TOKEN} -Dsonar.projectKey=mybatis-demo
+```
+
+Or You can start a local Sonar server (accessible on http://localhost:9001) with:
 
 ```bash
 $ docker compose -f docker-compose-sonar.yml up -d
@@ -56,82 +57,17 @@ $ docker compose -f docker-compose-sonar.yml up -d
 Note: we have turned off forced authentication redirect for UI in [docker-compose-sonar.yml](docker-compose-sonar.yml)
 for out of the box experience while trying out SonarQube, for real use cases turn it back on.
 
-You can run a Sonar analysis with using
-the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the maven
-plugin.
-
 Then, run a Sonar analysis:
 
 ```bash
-$ ./mvnw clean verify sonar:sonar -Dsonar.login=admin -Dsonar.password=admin
-```
-
-If you need to re-run the Sonar phase, please be sure to specify at least the `initialize` phase since Sonar properties are loaded from the sonar-project.properties file.
-
-```bash
-$ ./mvnw initialize sonar:sonar -Dsonar.login=admin -Dsonar.password=admin
-```
-
-Additionally, Instead of passing `sonar.password` and `sonar.login` as CLI arguments, these parameters can be configured
-from [sonar-project.properties](sonar-project.properties) as shown below:
-
-```
-sonar.login=admin
-sonar.password=admin
+$ ./mvnw sonar:sonar -Dsonar.token=${SONAR_TOKEN} -Dsonar.projectKey=mybatis-demo -Dsonar.host=http://localhost:9001 
 ```
 
 For more information, refer to
 the [Code quality page](https://www.jhipster.tech/documentation-archive/v8.7.3/code-quality/).
 
-### Docker Compose support
+## Further readings
 
-To start required services in Docker containers, run:
-
-```bash
-$ docker compose -f docker-compose.yml up -d
-```
-
-To stop and remove the containers, run:
-
-```bash
-$ docker compose -f docker-compose.yml down
-```
-
-[Spring Docker Compose Integration](https://docs.spring.io/spring-boot/reference/features/dev-services.html) is enabled
-by default. It's possible to disable it in application.yml:
-
-```yaml
-spring:
-  docker:
-    compose:
-      enabled: false
-```
-
-You can also fully dockerized your application and all the services that it depends on.
-To achieve this, first build a Docker image of your app by running:
-
-```bash
-$ ./mvnw -ntp verify -DskipTests jib:dockerBuild
-```
-
-Or build a arm64 Docker image when using an arm64 processor os like MacOS with M1 processor family running:
-
-```bash
-$ ./mvnw -ntp verify -DskipTests jib:dockerBuild -Djib-maven-plugin.architecture=arm64
-```
-
-Then run:
-
-```bash
-$ docker compose -f docker-compose-app.yml up -d
-```
-
-## Useful Links
-
-* Springdoc UI: http://localhost:8080/swagger-ui.html
-* Actuator Endpoint: http://localhost:8080/actuator
-* Sonarqube UI: http://localhost:9001
-* Zipkin UI: http://localhost:9411/
-* Kibana: http://localhost:5601/
-* Prometheus: http://localhost:9090/
-* Grafana: http://localhost:3000/ (admin/admin)
+* [Maven docs](https://maven.apache.org/guides/index.html)
+* [Spring Boot reference](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
+* [MyBatis Plus reference](https://baomidou.com/introduce/)
