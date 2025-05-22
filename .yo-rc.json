@@ -1,7 +1,7 @@
 {
   "generator-springboot": {
     "appName": "mybatis-demo",
-    "packageName": "com.mycompany.myapp",
+    "packageName": "io.github.rosestack.myapp",
     "databaseType": "postgresql",
     "dbMigrationTool": "flywaydb",
     "persistence": "mybatis",

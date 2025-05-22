@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@AnalyzeClasses(packages = "com.mycompany.myapp")
+@AnalyzeClasses(packages = "io.github.rosestack.myapp")
 class ArchUnitTest {
     @Test
     void shouldFollowLayeredArchitecture() {
@@ -105,13 +105,13 @@ class ArchUnitTest {
 
         classes()
                 .that()
-                .resideInAPackage("com.mycompany.myapp.repository")
+                .resideInAPackage("io.github.rosestack.myapp.repository")
                 .should()
                 .haveSimpleNameEndingWith("Repository");
 
         classes()
                 .that()
-                .resideInAPackage("com.mycompany.myapp.service")
+                .resideInAPackage("io.github.rosestack.myapp.service")
                 .should()
                 .haveSimpleNameEndingWith("Service");
 
