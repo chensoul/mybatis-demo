@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UserResourceTest extends BaseIT {
+class UserResourceTest extends BaseIT {
 
     @Test
     void getAllUsers_success() {
