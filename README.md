@@ -63,21 +63,7 @@ plugin.
 Then, run a Sonar analysis:
 
 ```bash
-$ ./mvnw clean verify sonar:sonar -Dsonar.login=admin -Dsonar.password=admin
-```
-
-If you need to re-run the Sonar phase, please be sure to specify at least the `initialize` phase since Sonar properties are loaded from the sonar-project.properties file.
-
-```bash
-$ ./mvnw initialize sonar:sonar -Dsonar.login=admin -Dsonar.password=admin
-```
-
-Additionally, Instead of passing `sonar.password` and `sonar.login` as CLI arguments, these parameters can be configured
-from [sonar-project.properties](sonar-project.properties) as shown below:
-
-```
-sonar.login=admin
-sonar.password=admin
+$ ./mvnw -Dsonar.token=${SONAR_TOKEN} -Dsonar.projectKey=mybatis-demo
 ```
 
 For more information, refer to
